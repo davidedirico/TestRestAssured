@@ -1,12 +1,16 @@
 import io.restassured.path.json.JsonPath;
 import model.user.User;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.net.http.HttpResponse;
+import java.util.Arrays;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 
 public class apiTest {
@@ -48,17 +52,21 @@ public class apiTest {
         System.out.println("name value = " + jsonResponse.getString("name"));;
     }
 
-    //stessa cosa con extract per utilizzare deserializzazione json con POJO
+    // extract per utilizzare deserializzazione json con POJO e controllare lunghezza array e presenza nome specifico
     @Test
     public void testUser5WithPojo(){
-        User[] user5 =
+        User[] users =
                 given()
                         .baseUri("https://jsonplaceholder.typicode.com")
                         .when()
-                        .get("/users?id=5")
+                        .get("/users")
                         .then()
                         .extract()
                         .as(User[].class);
-        System.out.println(user5);
+
+        assertTrue(users.length >0);
+        assertTrue(Arrays.stream(users).anyMatch(user -> user.getName().equals("Chelsey Dietrich")));
     }
+
+
 }
