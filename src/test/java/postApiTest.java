@@ -1,6 +1,4 @@
-import io.restassured.response.Response;
 import model.user.User;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.*;
